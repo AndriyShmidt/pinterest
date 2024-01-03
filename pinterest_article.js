@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const code = '37953934cd846856bb85d86842446c993ec21f7b';
+const code = '2eb7d1f5107c770c441d1d62a5179626c61193f8';
 let tokenData;
 
 // Get access token 
@@ -9,7 +9,7 @@ async function fetchOAuthToken(code) {
   const url = 'https://api.pinterest.com/v5/oauth/token';
 
   const headers = {
-      'Authorization': 'Basic ' + btoa('1494276%3A%20b4df5757ff736a5c2a8b6d1f3dc48c77405b38b2'),
+      'Authorization': 'Basic ' + btoa('MTQ5NDI3NjpiNGRmNTc1N2ZmNzM2YTVjMmE4YjZkMWYzZGM0OGM3NzQwNWIzOGIy'),
       'Content-Type': 'application/x-www-form-urlencoded'
   };
 
@@ -46,7 +46,7 @@ async function refreshPinterestToken(tokenData) {
   const url = 'https://api.pinterest.com/v5/oauth/token';
 
   const headers = {
-      'Authorization': 'Basic ' + btoa('1494276%3A%20b4df5757ff736a5c2a8b6d1f3dc48c77405b38b2'),
+      'Authorization': 'Basic ' + btoa('MTQ5NDI3NjpiNGRmNTc1N2ZmNzM2YTVjMmE4YjZkMWYzZGM0OGM3NzQwNWIzOGIy'),
       'Content-Type': 'application/x-www-form-urlencoded'
   };
 
@@ -85,33 +85,38 @@ function scheduleTokenRefresh() {
 
 scheduleTokenRefresh();
 
-//upload image to pinterest
-async function uploadImage(accessToken, imageUrl) {
-  const url = 'https://api.pinterest.com/v1/media/';
+//create boards
+function createBoardsToPinterest() {
+    const today = new Date();
+    if (today.getDate() === 1) {
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+                            "July", "August", "September", "October", "November", "December"];
+        const monthName = monthNames[today.getMonth()];
 
-  const headers = {
-      'Authorization': `Bearer ${accessToken}`,
-      'Content-Type': 'application/json'
-  };
+        const url = 'https://api.pinterest.com/v5/boards';
+        const data = {
+            name: `${monthName} Recipes`,
+            description: `My favorite recipes for ${monthName}`,
+            privacy: "PUBLIC"
+        };
 
-  const body = JSON.stringify({
-      'media_type': 'image',
-      'media': imageUrl
-  });
+        const headers = {
+            'Authorization': 'Bearer <Add your token here>',
+            'Content-Type': 'application/json'
+        };
 
-  try {
-      const response = await fetch(url, {
-          method: 'POST',
-          headers: headers,
-          body: body
-      });
-      const data = await response.json();
-      console.log('boards id', data)
-      return data.media_id;
-  } catch (error) {
-      console.error('Error in uploading image:', error);
-  }
+        fetch(url, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => console.log('Success:', data))
+        .catch((error) => console.error('Error:', error));
+    }
 }
+
+setInterval(createBoardsToPinterest, 24 * 60 * 60 * 1000);
 
 // get boards
 
@@ -134,33 +139,38 @@ async function getBoards(accessToken) {
 
 // Post on printest
 
-async function createPin(accessToken, boardId, imageUrl, description, siteLink) {
-  const url = 'https://api.pinterest.com/v1/pins/';
+async function createPinterestPin(token, boardId, title, description, imageUrl) {
+    const url = 'https://api.pinterest.com/v5/pins';
 
-  const headers = {
-      'Authorization': `Bearer ${accessToken}`,
-      'Content-Type': 'application/json'
-  };
+    const data = {
+        title: title,
+        description: description,
+        board_id: boardId,
+        media_source: {
+            source_type: "image_url",
+            url: imageUrl
+        }
+    };
 
-  const body = JSON.stringify({
-      'board_id': boardId,
-      'media_id': imageUrl,
-      'description': description,
-      'link': siteLink
-  });
+    const headers = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+    };
 
-  try {
-      const response = await fetch(url, {
-          method: 'POST',
-          headers: headers,
-          body: body
-      });
-      const data = await response.json();
-      console.log('Pin created:', data);
-  } catch (error) {
-      console.error('Error in creating pin:', error);
-  }
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(data)
+        });
+
+        const responseData = await response.json();
+        console.log('Success:', responseData);
+    } catch (error) {
+        console.error('Error:', error);
+    }
 }
+
 
 //Start post pinterest
 async function processItem(item, match) {
@@ -171,9 +181,8 @@ async function processItem(item, match) {
       const venueName = item.venue?.name || '';
     
       const description = `🎌Match Started!🎌 \n\n💥⚽️💥 ${homeTeamName} vs ${awayTeamName} League: ${competitionName} 💥⚽️💥 \n\n #${homeTeamName.replace(/[^a-zA-Z]/g, "")} #${awayTeamName.replace(/[^a-zA-Z]/g, "")} #${competitionName.replace(/[^a-zA-Z]/g, "")} ${venueName ? '#' + venueName.replace(/[^a-zA-Z]/g, "") : ''}`
-      const mediaId = await uploadImage(tokenData.access_token, item.social_picture);
       const board_id = await getBoards(tokenData.access_token)
-      await createPin(tokenData.access_token, board_id.items[0].id, mediaId, description, item.url);
+      await createPinterestPin(tokenData.access_token, board_id.items[0].id, `${homeTeamName} vs ${awayTeamName}`, description, item.social_picture);
   }
 }
 
