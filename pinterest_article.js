@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const code = 'a2031cba14dd4079d18b4f3968e310cd8dde799e';
+const code = '3bbd33a5995a9e216ceb497e7abeceb6b3cda274';
 let tokenData;
 
 // Get access token 
@@ -31,17 +31,17 @@ async function fetchOAuthToken(code) {
   }
 }
 
-(async () => {
+async function ff() {
   try {
       await fetchOAuthToken(code);
       console.log('Token Data:', tokenData);
   } catch (error) {
       console.error('Error in fetching token:', error);
   }
-})();
+};
 
+ff();
 
-console.log('Перший вивід ',tokenData.access_token)
 //Refresh token every 28 day
 
 async function refreshPinterestToken(tokenData) {
@@ -78,7 +78,6 @@ function scheduleTokenRefresh() {
   setTimeout(async () => {
       try {
           await refreshPinterestToken(tokenData);
-          console.log('Оновив', tokenData.access_token)
           scheduleTokenRefresh();
       } catch (error) {
           console.error('Failed to refresh token:', error);
@@ -87,8 +86,6 @@ function scheduleTokenRefresh() {
 }
 
 scheduleTokenRefresh();
-
-console.log('Другий вивід ',tokenData.access_token)
 
 //create boards
 function createBoardsToPinterest() {
