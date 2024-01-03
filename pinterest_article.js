@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const code = '73690b8f453716e434641a5b9a091c631997af6d';
+const code = 'a2031cba14dd4079d18b4f3968e310cd8dde799e';
 let tokenData;
 
 // Get access token 
@@ -9,7 +9,7 @@ async function fetchOAuthToken(code) {
   const url = 'https://api.pinterest.com/v5/oauth/token';
 
   const headers = {
-      'Authorization': 'Basic ' + btoa('MTQ5NDI3NjpiNGRmNTc1N2ZmNzM2YTVjMmE4YjZkMWYzZGM0OGM3NzQwNWIzOGIy'),
+      'Authorization': 'Basic MTQ5NDI3NjpiNGRmNTc1N2ZmNzM2YTVjMmE4YjZkMWYzZGM0OGM3NzQwNWIzOGIy',
       'Content-Type': 'application/x-www-form-urlencoded'
   };
 
@@ -41,14 +41,14 @@ async function fetchOAuthToken(code) {
 })();
 
 
-console.log(tokenData.access_token)
+console.log('Перший вивід ',tokenData.access_token)
 //Refresh token every 28 day
 
 async function refreshPinterestToken(tokenData) {
   const url = 'https://api.pinterest.com/v5/oauth/token';
 
   const headers = {
-      'Authorization': 'Basic ' + btoa('MTQ5NDI3NjpiNGRmNTc1N2ZmNzM2YTVjMmE4YjZkMWYzZGM0OGM3NzQwNWIzOGIy'),
+      'Authorization': 'Basic MTQ5NDI3NjpiNGRmNTc1N2ZmNzM2YTVjMmE4YjZkMWYzZGM0OGM3NzQwNWIzOGIy',
       'Content-Type': 'application/x-www-form-urlencoded'
   };
 
@@ -87,6 +87,8 @@ function scheduleTokenRefresh() {
 }
 
 scheduleTokenRefresh();
+
+console.log('Другий вивід ',tokenData.access_token)
 
 //create boards
 function createBoardsToPinterest() {
