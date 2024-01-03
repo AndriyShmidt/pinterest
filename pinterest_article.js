@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const code = '7851a605947e2d91c6e78e145b26962a954a4f5b';
+const code = '9f158db57563923c1b64ed9ea45cb48bbd6ac4a7';
 let tokenData;
 
 // Get access token 
@@ -180,7 +180,7 @@ async function processItem(item, match) {
       const competitionName = match.competition?.name || '';
       const venueName = item.venue?.name || '';
 
-      console,log(tokenData.access_token);
+      console.log(tokenData.access_token);
       console.log(board_id);
     
       const description = `🎌Match Started!🎌 \n\n💥⚽️💥 ${homeTeamName} vs ${awayTeamName} League: ${competitionName} 💥⚽️💥 \n\n #${homeTeamName.replace(/[^a-zA-Z]/g, "")} #${awayTeamName.replace(/[^a-zA-Z]/g, "")} #${competitionName.replace(/[^a-zA-Z]/g, "")} ${venueName ? '#' + venueName.replace(/[^a-zA-Z]/g, "") : ''}`
