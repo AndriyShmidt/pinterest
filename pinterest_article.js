@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const code = '2eb7d1f5107c770c441d1d62a5179626c61193f8';
+const code = '7851a605947e2d91c6e78e145b26962a954a4f5b';
 let tokenData;
 
 // Get access token 
@@ -179,6 +179,9 @@ async function processItem(item, match) {
       const awayTeamName = item.away_team?.name || '';
       const competitionName = match.competition?.name || '';
       const venueName = item.venue?.name || '';
+
+      console,log(tokenData.access_token);
+      console.log(board_id);
     
       const description = `🎌Match Started!🎌 \n\n💥⚽️💥 ${homeTeamName} vs ${awayTeamName} League: ${competitionName} 💥⚽️💥 \n\n #${homeTeamName.replace(/[^a-zA-Z]/g, "")} #${awayTeamName.replace(/[^a-zA-Z]/g, "")} #${competitionName.replace(/[^a-zA-Z]/g, "")} ${venueName ? '#' + venueName.replace(/[^a-zA-Z]/g, "") : ''}`
       const board_id = await getBoards(tokenData.access_token)
