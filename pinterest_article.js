@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const code = '9f158db57563923c1b64ed9ea45cb48bbd6ac4a7';
+const code = '73690b8f453716e434641a5b9a091c631997af6d';
 let tokenData;
 
 // Get access token 
@@ -40,6 +40,8 @@ async function fetchOAuthToken(code) {
   }
 })();
 
+
+console.log(tokenData.access_token)
 //Refresh token every 28 day
 
 async function refreshPinterestToken(tokenData) {
@@ -76,6 +78,7 @@ function scheduleTokenRefresh() {
   setTimeout(async () => {
       try {
           await refreshPinterestToken(tokenData);
+          console.log('Оновив', tokenData.access_token)
           scheduleTokenRefresh();
       } catch (error) {
           console.error('Failed to refresh token:', error);
@@ -181,7 +184,6 @@ async function processItem(item, match) {
       const venueName = item.venue?.name || '';
 
       console.log(tokenData.access_token);
-      console.log(board_id);
     
       const description = `🎌Match Started!🎌 \n\n💥⚽️💥 ${homeTeamName} vs ${awayTeamName} League: ${competitionName} 💥⚽️💥 \n\n #${homeTeamName.replace(/[^a-zA-Z]/g, "")} #${awayTeamName.replace(/[^a-zA-Z]/g, "")} #${competitionName.replace(/[^a-zA-Z]/g, "")} ${venueName ? '#' + venueName.replace(/[^a-zA-Z]/g, "") : ''}`
       const board_id = await getBoards(tokenData.access_token)
