@@ -132,7 +132,7 @@ async function getBoards(accessToken) {
   try {
       const response = await fetch(url, { headers: headers });
       const data = await response.json();
-      console.log('Boards:', data);
+      console.log('Boards:', data.items[0]);
       return data;
   } catch (error) {
       console.error('Error in getting boards:', error);
@@ -181,8 +181,6 @@ async function processItem(item, match) {
       const awayTeamName = item.away_team?.name || '';
       const competitionName = match.competition?.name || '';
       const venueName = item.venue?.name || '';
-
-      console.log(tokenData.access_token);
     
       const description = `🎌Match Started!🎌 \n\n💥⚽️💥 ${homeTeamName} vs ${awayTeamName} League: ${competitionName} 💥⚽️💥 \n\n #${homeTeamName.replace(/[^a-zA-Z]/g, "")} #${awayTeamName.replace(/[^a-zA-Z]/g, "")} #${competitionName.replace(/[^a-zA-Z]/g, "")} ${venueName ? '#' + venueName.replace(/[^a-zA-Z]/g, "") : ''}`
       const board_id = await getBoards(tokenData.access_token)
