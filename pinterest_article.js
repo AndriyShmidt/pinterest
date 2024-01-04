@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const code = 'af6785077ae7f092c0f1578ca8de929cb06272d0';
+const code = '5a0e331b533ca130288c3ab48493fa5c7a505140';
 let tokenData;
 
 // Get access token 
@@ -123,10 +123,11 @@ setInterval(createBoardsToPinterest, 24 * 60 * 60 * 1000);
 // get boards
 
 async function getBoards(accessToken) {
-  const url = 'https://api.pinterest.com/v1/me/boards/';
+  const url = 'https://api.pinterest.com/v5/boards';
 
   const headers = {
-      'Authorization': `Bearer ${accessToken}`
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json'
   };
 
   try {
