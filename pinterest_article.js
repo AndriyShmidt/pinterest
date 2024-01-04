@@ -132,7 +132,12 @@ async function getBoards(accessToken) {
   try {
       const response = await fetch(url, { headers: headers });
       const data = await response.json();
+      console.log('start')
+      console.log('data', data)
       console.log('Boards:', data.items[0]);
+      console.log('b', data[items][0])
+      console.log('b', data[items][0].id)
+      console.log('end')
       return data;
   } catch (error) {
       console.error('Error in getting boards:', error);
@@ -176,7 +181,7 @@ async function createPinterestPin(token, boardId, title, description, imageUrl) 
 
 //Start post pinterest
 async function processItem(item, match) {
-  if (Number(item.state_display) && Number(item.state_display) < 2) {
+  if (Number(item.state_display) && Number(item.state_display) < 30) {
       const homeTeamName = item.home_team?.name || '';
       const awayTeamName = item.away_team?.name || '';
       const competitionName = match.competition?.name || '';
