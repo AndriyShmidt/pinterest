@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const code = '5a0e331b533ca130288c3ab48493fa5c7a505140';
+const code = '60ccf38352ed084985bda79232e5db7b11c0ffd3';
 let tokenData;
 
 // Get access token 
@@ -134,10 +134,7 @@ async function getBoards(accessToken) {
       const response = await fetch(url, { headers: headers });
       const data = await response.json();
       console.log('start')
-      console.log('data', data)
-      console.log('Boards:', data.items[0]);
-      console.log('b', data[items][0])
-      console.log('b', data[items][0].id)
+      console.log('Boards:', data.items[0].id);
       console.log('end')
       return data;
   } catch (error) {
@@ -189,7 +186,9 @@ async function processItem(item, match) {
       const venueName = item.venue?.name || '';
     
       const description = `🎌Match Started!🎌 \n\n💥⚽️💥 ${homeTeamName} vs ${awayTeamName} League: ${competitionName} 💥⚽️💥 \n\n #${homeTeamName.replace(/[^a-zA-Z]/g, "")} #${awayTeamName.replace(/[^a-zA-Z]/g, "")} #${competitionName.replace(/[^a-zA-Z]/g, "")} ${venueName ? '#' + venueName.replace(/[^a-zA-Z]/g, "") : ''}`
-      const board_id = await getBoards(tokenData.access_token)
+      const board_id = await getBoards(tokenData.access_token);
+      console.log('FFFFFFFFFFFFFF')
+      console.log(board_id);
       await createPinterestPin(tokenData.access_token, board_id.items[0].id, `${homeTeamName} vs ${awayTeamName}`, description, item.social_picture);
   }
 }
