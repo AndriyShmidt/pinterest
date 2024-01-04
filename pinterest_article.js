@@ -176,7 +176,7 @@ async function createPinterestPin(token, boardId, title, description, imageUrl) 
 
 //Start post pinterest
 async function processItem(item, match) {
-  if (Number(item.state_display) && Number(item.state_display) < 30) {
+  if (Number(item.state_display) && Number(item.state_display) < 2) {
       const homeTeamName = item.home_team?.name || '';
       const awayTeamName = item.away_team?.name || '';
       const competitionName = match.competition?.name || '';
