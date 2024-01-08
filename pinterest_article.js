@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const code = '6f9fe353122412e1c34c5c693952a93f073cf052';
+const code = 'dd2ee3d3e970d9ecbf3983f2402d11537367866b';
 let tokenData;
 
 // Get access token 
@@ -179,7 +179,7 @@ async function createPinterestPin(token, boardId, title, description, imageUrl) 
 
 //Start post pinterest
 async function processItem(item, match) {
-  if (Number(item.state_display) && Number(item.state_display) < 70) {
+  if (Number(item.state_display) && Number(item.state_display) < 2) {
       const homeTeamName = item.home_team?.name || '';
       const awayTeamName = item.away_team?.name || '';
       const competitionName = match.competition?.name || '';
