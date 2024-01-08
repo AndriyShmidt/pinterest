@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const code = 'dd2ee3d3e970d9ecbf3983f2402d11537367866b';
+const code = '6a54b6ed5033566329bd206daf5ab42e6f4566c9';
 let tokenData;
 
 // Get access token 
@@ -144,11 +144,12 @@ async function getBoards(accessToken) {
 
 // Post on printest
 
-async function createPinterestPin(token, boardId, title, description, imageUrl) {
+async function createPinterestPin(token, boardId, title, description, imageUrl, link) {
     const url = 'https://api.pinterest.com/v5/pins';
 
     const data = {
         title: title,
+        link: link,
         description: description,
         board_id: boardId,
         media_source: {
@@ -187,9 +188,8 @@ async function processItem(item, match) {
     
       const description = `🎌Match Started!🎌 \n\n💥⚽️💥 ${homeTeamName} vs ${awayTeamName} League: ${competitionName} 💥⚽️💥 \n\n #${homeTeamName.replace(/[^a-zA-Z]/g, "")} #${awayTeamName.replace(/[^a-zA-Z]/g, "")} #${competitionName.replace(/[^a-zA-Z]/g, "")} ${venueName ? '#' + venueName.replace(/[^a-zA-Z]/g, "") : ''}`
       const board_id = await getBoards(tokenData.access_token);
-      console.log('FFFFFFFFFFFFFF')
-      console.log(board_id);
-      await createPinterestPin(tokenData.access_token, board_id.items[0].id, `${homeTeamName} vs ${awayTeamName}`, description, item.social_picture);
+
+      await createPinterestPin(tokenData.access_token, board_id.items[0].id, `${homeTeamName} vs ${awayTeamName}`, description, item.social_picture, item.url);
   }
 }
 
