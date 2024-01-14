@@ -1,7 +1,8 @@
 import fetch from 'node-fetch';
 
-const code = '4bcd52670bc1b1d2a87472e6d4ace7291c93972d';
+const code = '779f3955b522c729070ae648f5183a69db3e0ba6';
 let tokenData;
+let autopostData;
 
 //Get autopost is on or off
 async function fetchAutopost() {
@@ -14,7 +15,7 @@ async function fetchAutopost() {
     })
     .then(response => response.json())
     .then(data => {
-        return data;
+        autopostData = data;
     })
     .catch(error => {
         console.error('Error:', error);
@@ -216,7 +217,7 @@ async function processItem(item, match) {
 async function getMatch(matches) {
   for (const match of matches) {
       for (const item of match.matches) {
-          const autopostData = await fetchAutopost();
+          await fetchAutopost();
           console.log(autopostData);
           if (autopostData[0].enabled) {
             await processItem(item, match);
