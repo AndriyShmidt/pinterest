@@ -1,7 +1,25 @@
 import fetch from 'node-fetch';
 
-const code = '6a54b6ed5033566329bd206daf5ab42e6f4566c9';
+const code = '4bcd52670bc1b1d2a87472e6d4ace7291c93972d';
 let tokenData;
+
+//Get autopost is on or off
+async function fetchAutopost() {
+    fetch('https://sportscore.io/api/v1/autopost/settings/pinterest/', {
+        method: 'GET',
+        headers: {
+            "accept": "application/json",
+            'X-API-Key': 'uqzmebqojezbivd2dmpakmj93j7gjm',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        return data;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
 
 // Get access token 
 
@@ -94,11 +112,12 @@ function createBoardsToPinterest() {
         const monthNames = ["January", "February", "March", "April", "May", "June",
                             "July", "August", "September", "October", "November", "December"];
         const monthName = monthNames[today.getMonth()];
+        const year = today.getFullYear();
 
         const url = 'https://api.pinterest.com/v5/boards';
         const data = {
-            name: `${monthName} Recipes`,
-            description: `My favorite recipes for ${monthName}`,
+            name: `${monthName} ${year} Recipes`,
+            description: `My favorite recipes for ${monthName} ${year}`,
             privacy: "PUBLIC"
         };
 
@@ -197,7 +216,11 @@ async function processItem(item, match) {
 async function getMatch(matches) {
   for (const match of matches) {
       for (const item of match.matches) {
-          await processItem(item, match);
+          const autopostData = await fetchAutopost();
+          console.log(autopostData);
+          if (autopostData[0].enabled) {
+            await processItem(item, match);
+          }
       }
   }
 }
