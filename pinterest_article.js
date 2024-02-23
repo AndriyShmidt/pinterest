@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const code = '7825268df8791d8e6177a56a19125c79a789f5ae';
+const code = '07112b34d9c49d39678919f52af8ce86ab0a9d1b';
 let tokenData;
 let autopostData;
 
@@ -61,7 +61,7 @@ async function ff() {
 
 ff();
 
-//Refresh token every 28 day
+//Refresh token every 20 day
 
 async function refreshPinterestToken(tokenData) {
   const url = 'https://api.pinterest.com/v5/oauth/token';
@@ -91,12 +91,8 @@ async function refreshPinterestToken(tokenData) {
   }
 }
 
-setInterval(()=> {
-    refreshPinterestToken(tokenData)
-}, 7000)
-
 function scheduleTokenRefresh() {
-  const days = 28;
+  const days = 20;
   const millisecondsPerDay = 24 * 60 * 60 * 1000;
   setTimeout(async () => {
       try {
