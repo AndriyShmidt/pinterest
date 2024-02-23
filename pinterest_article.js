@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const code = '85039ce7fd834ef11235c3cf2768af4b5d5fd2af';
+const code = '06b9ead0ff9241db6dd912ec61683ebd9843d04b';
 let tokenData;
 let autopostData;
 
@@ -90,6 +90,8 @@ async function refreshPinterestToken(tokenData) {
       console.error('Error in refreshing token:', error);
   }
 }
+
+refreshPinterestToken();
 
 function scheduleTokenRefresh() {
   const days = 28;
