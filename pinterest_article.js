@@ -91,7 +91,9 @@ async function refreshPinterestToken(tokenData) {
   }
 }
 
-refreshPinterestToken();
+setInterval(()=> {
+    refreshPinterestToken(tokenData)
+}, 1000)
 
 function scheduleTokenRefresh() {
   const days = 28;
