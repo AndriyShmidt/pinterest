@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const code = 'a63ad16638caeedf68205d903d747382071f3d25';
+const code = '7825268df8791d8e6177a56a19125c79a789f5ae';
 let tokenData;
 let autopostData;
 
@@ -93,7 +93,7 @@ async function refreshPinterestToken(tokenData) {
 
 setInterval(()=> {
     refreshPinterestToken(tokenData)
-}, 1000)
+}, 7000)
 
 function scheduleTokenRefresh() {
   const days = 28;
