@@ -216,8 +216,7 @@ async function processItem(item, match) {
 // ===== MAKE POST ON PAGE =====
 async function getMatch(matches) {
     await fetchAutopost();
-    console.log(autopostData);
-    
+
     if (autopostData.some(item => item.enabled === true)) {
         for (const match of matches) {
             for (const item of match.matches) {
