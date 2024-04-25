@@ -154,7 +154,7 @@ async function getBoards(accessToken) {
       const response = await fetch(url, { headers: headers });
       const data = await response.json();
       console.log('start')
-      console.log('Boards:', data.items[0].id);
+      console.log('Boards:', data);
       console.log('end')
       return data;
   } catch (error) {
