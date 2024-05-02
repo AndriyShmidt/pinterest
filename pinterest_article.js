@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-const code = 'ef519382a73a83615c82eb123dfdec9605850252';
+const code = 'f3a6ad587d4436f8a9dcbc75bb166e7b6a51156e';
 let tokenData;
 let autopostData;
 
@@ -213,6 +213,11 @@ async function processItem(item, match) {
   }
 }
 
+async function processItemWithDelay(item, match) {
+    await new Promise(resolve => setTimeout(resolve, 20000));
+    await processItem(item, match);
+}
+
 // ===== MAKE POST ON PAGE =====
 async function getMatch(matches) {
     await fetchAutopost();
@@ -220,8 +225,7 @@ async function getMatch(matches) {
     if (autopostData.some(item => item.enabled === true)) {
         for (const match of matches) {
             for (const item of match.matches) {
-          
-                await processItem(item, match);
+                await processItemWithDelay(item, match);
             }
         }
     }
