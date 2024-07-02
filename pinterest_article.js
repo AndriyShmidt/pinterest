@@ -16,6 +16,7 @@ async function fetchAutopost() {
     .then(response => response.json())
     .then(data => {
         autopostData = data;
+        console.log(data)
     })
     .catch(error => {
         console.error('Error:', error);
